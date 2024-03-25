@@ -3,27 +3,41 @@ import Register from "./views/Register.jsx";
 import Home from "./views/Home.jsx";
 import Login from "./views/Login.jsx";
 import NotFound from "./views/NotFound.jsx";
+import GuestLayout from "./components/GuestLayout.jsx";
+import Layout from "./components/Layout.jsx";
+import Dashboard from "./views/Dashboard.jsx";
 
 const Router = createBrowserRouter([
     {
         path: "/",
-        element: <Home />
+        element:<GuestLayout />,
+        children: [
+            {
+                path: "/",
+                element: <Home />
+            },
+            
+            {
+                path: "/register",
+                element: <Register />
+            },
+            {
+                path: "/login",
+                element: <Login />
+            }
+        ]
     },
     {
-        path: "/about",
-        element: <div>
-            <h1>About</h1>
-            <p>Welcome to the about page!</p>
-        </div>
+        path: "/",
+        element:<Layout />,
+        children: [
+            {
+                path: "/dashboard",
+                element: <Dashboard />
+            },
+        ]
     },
-    {
-        path: "/register",
-        element: <Register />
-    },
-    {
-        path: "/login",
-        element: <Login />
-    },
+    
     {
         path: "/:catchAll",
         element: <NotFound />
