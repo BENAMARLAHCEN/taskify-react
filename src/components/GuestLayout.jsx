@@ -6,8 +6,6 @@ export default function GuestLayout() {
     if (token) return <Navigate to="/dashboard" />;
     return (
         <div>
-            <h1>Guest Layout</h1>
-            <p>Welcome to the guest layout!</p>
             <Outlet />
         </div>
     );
