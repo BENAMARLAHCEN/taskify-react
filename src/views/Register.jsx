@@ -31,6 +31,31 @@ export default function Register() {
         setErrors(response.data.errors);
       });
   }
+
+  const validateInput = (field, e) => {
+    var value = e.target.value;
+    if (field === "name") {
+      if (value.length < 3) {
+        setErrors({ name: ["Name must be at least 3 characters"] });
+      } else {
+        setErrors({ name: [] });
+      }
+    } else if (field === "email") {
+      const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+        if (!emailRegex.test(value)) {
+            setErrors({ email: ["Invalid email address"] });
+        } else {
+            setErrors({ email: [] });
+        }
+    } else if (field === "password") {
+      if (value.length < 6) {
+        setErrors({ password: ["Password must be at least 6 characters"] });
+      } else {
+        setErrors({ password: [] });
+      }
+    }
+  };
+
   return (
     <div className="login-signup-form animated fadeInDown">
       <div className="form">
@@ -49,9 +74,24 @@ export default function Register() {
               </div>
             )}
           </div>
-          <input ref={nameRef} type="text" placeholder="Full Name" />
-          <input ref={emailRef} type="email" placeholder="Email Address" />
-          <input ref={passwordRef} type="password" placeholder="Password" />
+          <input
+            ref={nameRef}
+            type="text"
+            placeholder="Full Name"
+            onKeyUp={(e) => validateInput("name", e)}
+          />
+          <input
+            ref={emailRef}
+            type="email"
+            placeholder="Email Address"
+            onKeyUp={(e) => validateInput("email", e)}
+          />
+          <input
+            ref={passwordRef}
+            type="password"
+            placeholder="Password"
+            onKeyUp={(e) => validateInput("password", e)}
+          />
           <input type="password" placeholder="Repeat Password" />
           <button className="btn btn-block">Signup</button>
           <p className="message">

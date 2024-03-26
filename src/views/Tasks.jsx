@@ -119,7 +119,7 @@ export default function Tasks() {
                         edit
                       </Link>
                       <button
-                        onClick={(ev) => onDeleteClick(task)}
+                        onClick={(ev) => onDeleteClick(task,ev)}
                         className="btn btn-sm btn-delete"
                       >
                         Delete

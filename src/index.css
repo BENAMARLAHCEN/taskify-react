@@ -20,7 +20,7 @@ body {
     background-color: #f6f6f6;
 }
 
-input,textarea,select {
+input,textarea {
     outline: 0;
     background: #ffffff;
     width: 100%;
@@ -30,6 +30,20 @@ input,textarea,select {
     box-sizing: border-box;
     font-size: 14px;
     transition: all 0.3s;
+}
+select{
+  outline: 0;
+  background: #ffffff;
+  width: 100%;
+  border: 2px solid #e6e6e6;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.error {
+    border-color: #ff4040 !important;
 }
 
 input:focus,textarea:focus,select:focus {
