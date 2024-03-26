@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom/dist";
 import axiosClient from "../axios-client";
+import { useStateContext } from "../contexts/ContextProvider";
 
 export default function TaskForm() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { setNotification } = useStateContext();
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
   const [task, setTask] = useState({
@@ -42,18 +44,19 @@ export default function TaskForm() {
       axiosClient
         .put(`/tasks/${id}`, payload)
         .then((response) => {
+          setNotification("Task updated successfully");
           navigate("/tasks");
           console.log(response.data);
         })
         .catch((error) => {
           const response = error.response;
-          console.log(response.data.errors);
           setErrors(response.data.errors);
         });
     } else {
       axiosClient
         .post("/tasks", payload)
         .then((response) => {
+          setNotification("Task created successfully");
           navigate("/tasks");
           console.log(response.data);
         })
