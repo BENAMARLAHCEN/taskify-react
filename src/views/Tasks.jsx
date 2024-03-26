@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../axios-client";
 import { Link } from "react-router-dom/dist";
+import { useStateContext } from "../contexts/ContextProvider";
 
 export default function Tasks() {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(false);
+  const {setNotification} = useStateContext();
 
   useEffect(() => {
     getTasks();
@@ -17,6 +19,7 @@ export default function Tasks() {
       .delete(`/tasks/${task.id}`)
       .then((response) => {
         console.log(response.data);
+        setNotification("Task deleted successfully");
         getTasks();
       })
       .catch((error) => {
@@ -39,43 +42,16 @@ export default function Tasks() {
       });
   };
 
-  //   const onDeleteClick = (task) => {
-  //       console.log(task);
-  //   }
-  //     const loading = false;
+    const updateStatus = (task, ev) => {
+        axiosClient.put(`/tasks/${task.id}/status`, {status: ev.target.value})
+        .then(response => {
+            ev.target.value = response.data.task.status
+            console.log(response.data)
+        }).catch(error => {
+            console.log(error.response.data)
+        })
+    }
 
-  //   const tasks = [
-  //     {
-  //       id: 1,
-  //       name: "Task 1",
-  //       description: "Description 1",
-  //       status: "Pending",
-  //     },
-  //     {
-  //       id: 2,
-  //       name: "Task 2",
-  //       description: "Description 2",
-  //       status: "Completed",
-  //     },
-  //     {
-  //       id: 3,
-  //       name: "Task 3",
-  //       description: "Description 3",
-  //       status: "Pending",
-  //     },
-  //     {
-  //       id: 4,
-  //       name: "Task 4",
-  //       description: "Description 4",
-  //       status: "Completed",
-  //     },
-  //     {
-  //       id: 5,
-  //       name: "Task 5",
-  //       description: "Description 5",
-  //       status: "Pending",
-  //     },
-  //   ];
 
   return (
     <div>
@@ -120,7 +96,10 @@ export default function Tasks() {
                     <td>{task.title}</td>
                     <td>{task.description}</td>
                     <td>
-                    <select value={task.status}>
+                    <select value={task.status} onChange={
+                        (ev) => {updateStatus(task, ev)}
+                    
+                    }>
                         <option value="To Do">To Do</option>
                         <option value="In Progress">In Progress</option>
                         <option value="Done">Done</option>
