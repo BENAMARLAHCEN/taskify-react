@@ -31,6 +31,25 @@ export default function Login() {
       });
   }
 
+    const validateInput = (field, e) => {
+        var value = e.target.value;
+        if (field === "email") {
+            const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+            if (!emailRegex.test(value)) {
+                setErrors({ email: ["Invalid email address"] });
+            } else {
+                setErrors({ email: [] });
+            }
+        }
+        if (field === "password") {
+            if (value.length < 6) {
+                setErrors({ password: ["Password must be at least 6 characters"] });
+            } else {
+                setErrors({ password: [] });
+            }
+        }
+    }
+
   return (
     <div className="login-signup-form animated fadeInDown">
       <div className="form">
@@ -49,8 +68,8 @@ export default function Login() {
               </div>
             )}
           </div>
-          <input ref={emailRef} type="email" placeholder="Email" />
-          <input ref={passwordRef} type="password" placeholder="Password" />
+          <input ref={emailRef} type="email" placeholder="Email" onKeyUp={e => validateInput('email',e)} />
+          <input ref={passwordRef} type="password" placeholder="Password" onKeyUp={e => validateInput('password',e)} />
           <button className="btn btn-block">Login</button>
           <p className="message">
             Not registered? <Link to="/register">Create an account</Link>
